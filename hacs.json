@@ -1,0 +1,7 @@
+{
+    "name": "Meal Plan Card",
+    "homeassistant": "0.109.0",
+    "zip_release": true,
+    "render_readme": true,
+    "filename": "lovelace-grocy-meal-plan-card.zip"    
+}
