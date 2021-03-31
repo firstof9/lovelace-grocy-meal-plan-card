@@ -75,35 +75,35 @@ class MealPlanCard extends LitElement {
 
         this.numberElements++;
         return html`
-            <div class="meal clear ${this.numberElements > 1 ? "spacer" : ""}">
+            <div style="padding: 5px 10px;">
             ${meals
                 .slice(0, 5)
                 .map(
                     (daily) => html`
+                    <div class="meal" style="background: url('${daily.picture_url}') no-repeat 100% 0; background-size: contain">
                       <div class="day">
-                        <div class="dayname">
+                      <svg class="svg_view" viewBox="0 0 200 100">
+                        <text>
+                        <tspan class="dayname view daytitle" x="0" dy="1em">
                           ${this.getDay(daily.day, lang, tz)}
-                        </div>
-                        <i
-                          class="image"
-                          style="background: url('${daily.picture_url}') no-repeat 100% 0; 
-                          background-size: contain"
-                        ></i
-                        ><br />
-                        <span class="recipe_name">
+                        </tspan>
+                        <tspan class="recipe_name view" x="0" dy="1.3em">
                           ${daily.recipe_name}
-                        </span>
+                        </tspan>
                         ${daily.note !== null &&
                             daily.note !== undefined
                             ? html`
-                              <div class="note">
+                              <tspan class="note view" x="0" dy="1.3em">
                                 ${daily.note}
-                              </div>
+                              </tspan>
                             `
                             : ""}
+                        </text>
+                        </svg>
                        </div>
                     `
-                )}                
+                )}
+            </div>                
         `;
 
     }
@@ -145,18 +145,50 @@ class MealPlanCard extends LitElement {
     
           .meal {
             width: 100%;
-            margin: 0 auto;
-            display: flex;
+            overflow: hidden;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 10px;
+            background-repeat: no-repeat;
+            background-size: auto 100%;
+            box-shadow: 3px 2px 25px rgba(0,0,0,.8);
+            position: relative;
           }
-    
           .day {
-            flex: 1;
-            display: block;
-            text-align: center;
-            color: var(--primary-text-color);
-            border-right: 0.1em solid #d9d9d9;
-            line-height: 2;
-            box-sizing: border-box;
+            width: 100%;
+            background: linear-gradient(to right, #000 48%,
+                  transparent 80%,#000 100%);
+            margin: auto;
+            box-shadow: inset 0 0 0 3px #000;
+            overflow: hidden;
+          }
+
+          .view {
+            overflow: visible;
+            width: 55%;
+            margin-top: 1%;
+            margin-left: 2.5%;
+            alignment-baseline: text-after-edge;              
+          }
+
+          .svg_view {
+            overflow: visible;
+            width: 55%;
+            margin-top: 1%;
+            margin-left: 2.5%;
+            alignment-baseline: text-after-edge;
+          }
+
+          .daytitle {
+            font-weight: 600;
+            font-size: 18px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+            fill: #fff;              
+          }
+          .recipe_name {
+            font-size: 14px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+            fill: #fff;              
           }
     
           .dayname {
