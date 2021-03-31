@@ -88,6 +88,9 @@ class MealPlanCard extends LitElement {
                           ${this.getDay(daily.day, lang, tz)}
                         </tspan>
                         <tspan class="recipe_name view" x="0" dy="1.3em">
+                            ${new Date(daily.day.split('T')[0]).toLocaleString(lang, { dateStyle: "short", timeZone: tz })}
+                        </tspan>
+                        <tspan class="recipe_name view" x="0" dy="1.3em">
                           ${daily.recipe_name}
                         </tspan>
                         ${daily.note !== null &&
@@ -118,6 +121,7 @@ class MealPlanCard extends LitElement {
 
     getDay(theDate, lang, tz) {
         theDate = theDate.split('T')[0] + " 12:00"
+
         return new Date(theDate).toLocaleString(lang, {
             weekday: "short", timeZone: tz,
         })
