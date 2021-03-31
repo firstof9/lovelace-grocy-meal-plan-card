@@ -81,9 +81,7 @@ class MealPlanCard extends LitElement {
         return html`
             <div class="meal clear ${this.numberElements > 1 ? "spacer" : ""}">
             ${meals
-                .slice(
-                    0, 5
-                )
+                .slice(0, 5)
                 .map(
                     (daily) => html`
                       <div class="day">
