@@ -26,10 +26,6 @@ class MealPlanCard extends LitElement {
         this._config = config;
     }
 
-    // shouldUpdate(changedProps) {
-    //     if (changedProps.has('stateObj') || changedProps.has('pending')) { return true; }
-    // }
-
     render() {
         if (!this._config || !this.hass) {
             return html``;
