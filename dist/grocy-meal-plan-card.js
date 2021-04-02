@@ -101,7 +101,7 @@ class MealPlanCard extends LitElement {
                           ${this.getDay(daily.day, lang, tz)}
                         </tspan>
                         <tspan class="recipe_name view" x="0" dy="1.3em">
-                            ${new Date(daily.day.split('T')[0]).toLocaleString(lang, { dateStyle: "short", timeZone: tz })}
+                            ${this.getShortDay(daily.day, lang)}
                         </tspan>
                         <tspan class="recipe_name view" x="0" dy="1.3em">
                           ${daily.recipe_name}
@@ -140,6 +140,12 @@ class MealPlanCard extends LitElement {
     })
   }
 
+  getShortDay(theDate, lang) {
+    theDate = theDate.split('T')[0] + " 12:00"
+
+    return new Date(theDate).toLocaleString(lang, { dateStyle: "short" })
+  }
+
   static get styles() {
     return css`
           ha-card {
@@ -150,14 +156,6 @@ class MealPlanCard extends LitElement {
             padding-left: 1em;
             padding-right: 1em;
             position: relative;
-          }
-    
-          .spacer {
-            padding-top: 1em;
-          }
-    
-          .clear {
-            clear: both;
           }
     
           .meal {
@@ -171,6 +169,7 @@ class MealPlanCard extends LitElement {
             box-shadow: 3px 2px 25px rgba(0,0,0,.8);
             position: relative;
           }
+
           .day {
             width: 100%;
             background: linear-gradient(to right, #000 48%,
@@ -202,6 +201,7 @@ class MealPlanCard extends LitElement {
             text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
             fill: #fff;              
           }
+
           .recipe_name {
             font-size: 14px;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
@@ -210,10 +210,6 @@ class MealPlanCard extends LitElement {
     
           .dayname {
             text-transform: uppercase;
-          }
-    
-          .image {
-              overflow: hidden;
           }
         `;
   }
