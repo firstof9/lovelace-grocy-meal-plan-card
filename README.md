@@ -5,6 +5,7 @@
 
 <img src="https://github.com/firstof9/lovelace-grocy-meal-plan-card/raw/main/image.png" alt="Grocy Meal Plan Card">
 
+### Card Config
 This goes under `cards:` in your lovelace:
 ```yaml
   - type: custom:grocy-meal-plan-card
