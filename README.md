@@ -11,3 +11,9 @@ This goes under `cards:` in your lovelace:
   - type: custom:grocy-meal-plan-card
     entity: sensor.grocy_meal_plan
 ```
+
+### Options
+| Name | Type | Default | Description |
+|:--:|:--:|:--:| :--: |
+| entity | `string` | **Required** | entity id of meal sensor: ie: `grocy_meal_plan` |
+| count | `integer` | `5` | Amount of meals to display at once |

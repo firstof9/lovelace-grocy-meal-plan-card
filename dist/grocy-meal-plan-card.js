@@ -90,7 +90,10 @@ class MealPlanCard extends LitElement {
     return html`
             <div style="padding: 5px 10px;">
             ${meals
-        .slice(0, 5)
+        .slice(0,
+          this._config.count
+            ? this._config.count
+            : 5)
         .map(
           (daily) => html`
                     <div class="meal" style="background: url('${daily.picture_url}') no-repeat 100% 0; background-size: contain">
