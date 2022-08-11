@@ -100,23 +100,23 @@ class MealPlanCard extends LitElement {
                       <div class="day">
                       <svg class="svg_view" viewBox="0 0 200 100">
                         <text>
-                        <tspan class="dayname view daytitle" x="0" dy="1em">
-                          ${this.getDay(daily.day, lang, tz)}
-                        </tspan>
-                        <tspan class="recipe_name view" x="0" dy="1.3em">
-                            ${this.getShortDay(daily.day, lang)}
-                        </tspan>
-                        <tspan class="recipe_name view" x="0" dy="1.3em">
-                          ${daily.recipe_name}
-                        </tspan>
-                        ${daily.note !== null &&
-              daily.note !== undefined
-              ? html`
-                              <tspan class="note view" x="0" dy="1.3em">
-                                ${daily.note}
-                              </tspan>
-                            `
-              : ""}
+                          <tspan class="dayname view daytitle" x="0" dy="1em">${this.getDay(daily.day, lang, tz)}</tspan>
+                          <tspan class="recipe_name view" x="0" dy="1.3em">${this.getShortDay(daily.day, lang)}</tspan>
+                          <tspan class="recipe_name view" x="0" dy="1.3em">
+                            ${typeof daily.recipe_name !== 'undefined' ? daily.recipe_name
+                            : typeof daily.recipe.name !== 'undefined' ? daily.recipe.name
+                            : ""}
+                          </tspan>
+                          <tspan class="section view" x="0" dy="1.3em">
+                            ${typeof daily.section !== 'undefined' && daily.section.name !== null
+                            ? daily.section.name
+                            : ""}
+                          </tspan>
+                          <tspan class="recipe_name view" x="0" dy="1.3em">
+                            ${typeof daily.note !== 'undefined' && daily.note !== null
+                            ? daily.note
+                            : ""}
+                          </tspan>
                         </text>
                         </svg>
                        </div>
@@ -210,6 +210,13 @@ class MealPlanCard extends LitElement {
             text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
             fill: #fff;              
           }
+
+          .section {
+            font-size: 14px;
+            font-style: italic;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+            fill: #fff;              
+          }          
     
           .dayname {
             text-transform: uppercase;
