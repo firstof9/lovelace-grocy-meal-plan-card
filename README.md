@@ -17,3 +17,4 @@ This goes under `cards:` in your lovelace:
 |:--:|:--:|:--:| :--: |
 | entity | `string` | **Required** | entity id of meal sensor: ie: `sensor.grocy_meal_plan` |
 | count | `integer` | `5` | Amount of meals to display at once |
+| daily | `boolean` | `false` | Show the current day's plans |
