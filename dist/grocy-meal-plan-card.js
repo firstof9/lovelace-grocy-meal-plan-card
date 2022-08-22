@@ -85,105 +85,56 @@ class MealPlanCard extends LitElement {
 
     const lang = this.hass.selectedLanguage || this.hass.language;
     const tz = this.hass.config.time_zone || "GMT";
-    var today = new Date();
-    today = today.toISOString().split('T')[0]
 
     this.numberElements++;
-    if (this._config.daily)
-    {
-      var newplan = [];
-      var text = "";
 
-      meals.forEach(daily => {
-        if (daily.day == today) {
-          newplan.push(daily)
-        }
-        text = html`
-        <div style="padding: 5px 10px;">
-        ${newplan.map((daily) => html`
-          <div class="meal" style="background: url('${daily.picture_url}') no-repeat 100% 0; background-size: contain">
-            <div class="day">
-              <svg class="svg_view" viewBox="0 0 200 100">
-                <text>
-                  <tspan class="dayname view daytitle" x="0" dy="1em">${this.getDay(daily.day, lang, tz)}</tspan>
-                  <tspan class="recipe_name view" x="0" dy="1.3em">${this.getShortDay(daily.day, lang)}</tspan>
-                  <tspan class="recipe_name view" x="0" dy="1.3em">
-                    ${typeof daily.recipe_name !== 'undefined' ? daily.recipe_name
-                    : typeof daily.recipe.name !== 'undefined' ? daily.recipe.name
-                    : ""}
-                  </tspan>
-                  <tspan class="section view" x="0" dy="1.3em">
-                    ${typeof daily.section !== 'undefined' && daily.section.name !== null
-                    ? daily.section.name
-                    : ""}
-                  </tspan>
-                  <tspan class="recipe_name view" x="0" dy="1.3em">
-                    ${typeof daily.note !== 'undefined' && daily.note !== null
-                    ? daily.note
-                    : ""}
-                  </tspan>
-                </text>
-              </svg>
-            </div>
-          </div>          
-        `)}
-        </div>
-        `;
-      });
-      
-      if (newplan.length > 0) {
-        return text;
-      }
-      else {
-        return html`
-        <ha-card>
-          <div class="not-found">
-            No meal plans for today.
+    // Build meal plan array with filtering
+    var newplan = this.buildPlan(meals);
+
+    var text = html`
+    <div style="padding: 5px 10px;">
+      ${newplan.map((daily) => html`
+        <div class="meal" style="background: url('${daily.picture_url}') no-repeat 100% 0; background-size: contain">
+          <div class="day">
+            <svg class="svg_view" viewBox="0 0 200 100">
+              <text>
+                <tspan class="dayname view daytitle" x="0" dy="1em">${this.getDay(daily.day, lang, tz)}</tspan>
+                <tspan class="recipe_name view" x="0" dy="1.3em">${this.getShortDay(daily.day, lang)}</tspan>
+                <tspan class="recipe_name view" x="0" dy="1.3em">
+                  ${typeof daily.recipe_name !== 'undefined' ? daily.recipe_name
+                  : typeof daily.recipe.name !== 'undefined' ? daily.recipe.name
+                  : ""}
+                </tspan>
+                <tspan class="section view" x="0" dy="1.3em">
+                  ${typeof daily.section !== 'undefined' && daily.section.name !== null
+                  ? daily.section.name
+                  : ""}
+                </tspan>
+                <tspan class="recipe_name view" x="0" dy="1.3em">
+                  ${typeof daily.note !== 'undefined' && daily.note !== null
+                  ? daily.note
+                  : ""}
+                </tspan>
+              </text>
+            </svg>
           </div>
-        </ha-card>            
-        `;        
-      }
+        </div>          
+      `)}
+    </div>
+    `;
+      
+    if (newplan.length > 0) {
+      return text;
     }
     else {
       return html`
-              <div style="padding: 5px 10px;">
-              ${meals
-          .slice(0,
-            this._config.count
-              ? this._config.count
-              : 5)
-          .map(
-            (daily) => html`
-                      <div class="meal" style="background: url('${daily.picture_url}') no-repeat 100% 0; background-size: contain">
-                        <div class="day">
-                        <svg class="svg_view" viewBox="0 0 200 100">
-                          <text>
-                            <tspan class="dayname view daytitle" x="0" dy="1em">${this.getDay(daily.day, lang, tz)}</tspan>
-                            <tspan class="recipe_name view" x="0" dy="1.3em">${this.getShortDay(daily.day, lang)}</tspan>
-                            <tspan class="recipe_name view" x="0" dy="1.3em">
-                              ${typeof daily.recipe_name !== 'undefined' ? daily.recipe_name
-                              : typeof daily.recipe.name !== 'undefined' ? daily.recipe.name
-                              : ""}
-                            </tspan>
-                            <tspan class="section view" x="0" dy="1.3em">
-                              ${typeof daily.section !== 'undefined' && daily.section.name !== null
-                              ? daily.section.name
-                              : ""}
-                            </tspan>
-                            <tspan class="recipe_name view" x="0" dy="1.3em">
-                              ${typeof daily.note !== 'undefined' && daily.note !== null
-                              ? daily.note
-                              : ""}
-                            </tspan>
-                          </text>
-                          </svg>
-                        </div>
-                      `
-          )}
-              </div>                
-          `;
-      }
-
+      <ha-card>
+        <div class="not-found">
+          No meal plans for today.
+        </div>
+      </ha-card>            
+      `;        
+    }
   }
 
   _handleClick() {
@@ -192,6 +143,30 @@ class MealPlanCard extends LitElement {
 
   getCardSize() {
     return 3;
+  }
+
+  buildPlan(meals) {
+    var today = new Date().toISOString().split('T')[0];
+    var newplan = [];
+    if (this._config.daily)
+    {
+      meals.forEach(daily => {
+        if (daily.day == today) {
+          newplan.push(daily)
+        }
+      })
+    } 
+    else if (this._config.section) {
+      meals.forEach(daily => {
+        if (daily.section.name.toLowerCase() == this._config.section.toLowerCase()) {
+          newplan.push(daily);
+        }        
+      })
+    }
+    else {
+      meals.slice(0,this._config.count ? this._config.count : 5).map(daily => newplan.push(daily))
+    }
+    return newplan
   }
 
   getDay(theDate, lang, tz) {
