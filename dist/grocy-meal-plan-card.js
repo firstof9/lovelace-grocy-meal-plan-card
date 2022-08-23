@@ -89,7 +89,7 @@ class MealPlanCard extends LitElement {
     this.numberElements++;
 
     // Build meal plan array with filtering
-    var newplan = this.buildPlan(meals);
+    var newplan = this.buildPlan(meals, lang, tz);
 
     var text = html`
     <div style="padding: 5px 10px;">
@@ -145,8 +145,14 @@ class MealPlanCard extends LitElement {
     return 3;
   }
 
-  buildPlan(meals) {
-    var today = new Date().toISOString().split('T')[0];
+  buildPlan(meals, lang, tz) {
+    var today = new Date();
+    var yyyy = today.getFullYear();
+    var mm = today.getMonth() + 1;
+    var dd = today.getDate();
+    dd <10 ? dd = '0' + dd : dd = dd
+    mm < 10 ? mm = '0' + mm : mm = mm
+    today = yyyy + '-' + mm + '-' + dd
     var newplan = [];
     if (this._config.daily)
     {
