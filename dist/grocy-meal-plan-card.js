@@ -40,10 +40,10 @@ class MealPlanCard extends LitElement {
   }
 
   translate(string) {
-    if((this.config.custom_translation != null) &&
-        (this.config.custom_translation[string] != null))
+    if((this._config.custom_translation != null) &&
+        (this._config.custom_translation[string] != null))
         {
-           return this.config.custom_translation[string];
+           return this._config.custom_translation[string];
         }
     return string;
   }  
