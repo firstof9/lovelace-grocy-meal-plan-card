@@ -19,7 +19,7 @@ This goes under `cards:` in your lovelace:
 | count | `integer` | `5` | Amount of meals to display at once |
 | daily | `boolean` | `false` | Show the current day's plan(s) |
 | section | `string` | `none` | Filter plans by Grocy `section` |
-| custom_translation | string-list | **Optional** |  | List of translations of string values used in the card (see below).
+| custom_translation | string-list | **Optional** |  List of translations of string values used in the card (see below). |
 
 ## Advanced options
 It is possible to translate the following English strings in the card to whatever you like.
