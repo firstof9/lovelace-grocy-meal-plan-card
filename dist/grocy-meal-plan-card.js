@@ -39,6 +39,15 @@ class MealPlanCard extends LitElement {
     this._config = config;
   }
 
+  translate(string) {
+    if((this._config.custom_translation != null) &&
+        (this._config.custom_translation[string] != null))
+        {
+           return this._config.custom_translation[string];
+        }
+    return string;
+  }  
+
   render() {
     if (!this._config || !this.hass) {
       return html``;
@@ -77,7 +86,7 @@ class MealPlanCard extends LitElement {
       return html`
             <ha-card>
               <div class="not-found">
-                No meal plans found.
+                ${this.translate("No meal plans found")}
               </div>
             </ha-card>            
             `;
