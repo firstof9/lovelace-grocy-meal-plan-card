@@ -102,17 +102,18 @@ class MealPlanCard extends LitElement {
 
     var text = html`
     <div>
-      ${newplan.map((daily) => html`
-        <div class="meal" style="background-image: url('${daily.picture_url}');background-size: auto;background-repeat: no-repeat;background-position-x: right;background-position-y: 2em;>
-            <div class="day">
-                <div>
-                    <h1 class="card-header" style="Display: inline-block">${this.getDay(daily.day, lang, tz)} - ${this.getShortDay(daily.day, lang)}</h1>
-                    <p style="text-indent: 2em;display: inline-block; float: right;">${typeof daily.section !== 'undefined' && daily.section.name !== null
-                    ? daily.section.name
-                    : ""}
-                    </p>
-                </div>
-                <div class=".info">
+    ${newplan.map((daily) => html`
+    <div class="meal">
+        <div class="day">
+            <div>
+                <h1 class="card-header" style="Display: inline-block">${this.getDay(daily.day, lang, tz)} - ${this.getShortDay(daily.day, lang)}</h1>
+                <p style="text-indent: 2em;display: inline-block; float: right;">${typeof daily.section !== 'undefined' && daily.section.name !== null
+                ? daily.section.name
+                : ""}
+                </p>
+            </div>
+            <div>
+                <div class=".info inline">
                     ${daily.type === 'note' 
                     ? daily.note 
                     : ""}
@@ -127,14 +128,16 @@ class MealPlanCard extends LitElement {
                       ? daily.type 
                       : ""}
                 </div>
-                <div class=".info"> 
-                      ${daily.type === 'recipe' && typeof daily.recipe.description !== 'undefined' && daily.recipe.description !== null
-                      ?  daily.recipe.description
-                      : ""}
-                </div>
+                <img class="pic" src="${daily.picture_url}"></img>
             </div>
-        </div>          
-      `)}
+            <div class=".info"> 
+                  ${daily.type === 'recipe' && typeof daily.recipe.description !== 'undefined' && daily.recipe.description !== null
+                  ?  (document.createElement('div').innerHTML = daily.recipe.description)
+                  : ""}
+            </div>
+        </div>
+    </div>          
+    `)}
     </div>
     `;
       
