@@ -231,7 +231,7 @@ class MealPlanCard extends LitElement {
             border-style: solid;
             border-color: var(--ha-card-border-color,var(--divider-color,#e0e0e0));        
             position: relative;
-            padding: 0px 0.67em;
+            padding: 0px 0.67em 0.67em 0.67em;
             background-color: var(--secondary-background-color,rgb(119 119 119 / 25%))
           }
 
@@ -285,7 +285,15 @@ class MealPlanCard extends LitElement {
             text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
             fill: #fff;              
           }          
-    
+          .inline {
+              display: inline-block;
+          }
+          
+          .pic {
+                width: 10em;
+                float: right;
+                display: inline-block;
+            }
           .dayname {
             text-transform: uppercase;
           }
