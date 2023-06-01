@@ -101,34 +101,43 @@ class MealPlanCard extends LitElement {
     var newplan = this.buildPlan(meals, lang, tz);
 
     var text = html`
-    <div style="padding: 5px 10px;">
-      ${newplan.map((daily) => html`
-        <div class="meal" style="background: url('${daily.picture_url}') no-repeat 100% 0; background-size: contain">
-          <div class="day">
-            <svg class="svg_view" viewBox="0 0 200 100">
-              <text>
-                <tspan class="dayname view daytitle" x="0" dy="1em">${this.getDay(daily.day, lang, tz)}</tspan>
-                <tspan class="recipe_name view" x="0" dy="1.3em">${this.getShortDay(daily.day, lang)}</tspan>
-                <tspan class="recipe_name view" x="0" dy="1.3em">
-                  ${typeof daily.recipe_name !== 'undefined' ? daily.recipe_name
-                  : typeof daily.recipe.name !== 'undefined' ? daily.recipe.name
+    <div>
+    ${newplan.map((daily) => html`
+    <div class="meal">
+        <div class="day">
+            <div>
+                <h1 class="card-header" style="Display: inline-block">${this.getDay(daily.day, lang, tz)} - ${this.getShortDay(daily.day, lang)}</h1>
+                <p style="text-indent: 2em;display: inline-block; float: right;">${typeof daily.section !== 'undefined' && daily.section.name !== null
+                ? daily.section.name
+                : ""}
+                </p>
+            </div>
+            <div>
+                <div class=".info inline">
+                    ${daily.type === 'note' 
+                    ? daily.note 
+                    : ""}
+                    ${daily.type === 'recipe' 
+                      ? typeof daily.recipe_name !== 'undefined' 
+                        ? daily.recipe_name 
+                        : typeof daily.recipe.name !== 'undefined' 
+                          ? daily.recipe.name 
+                        : ""
+                      : ""}
+                    ${daily.type === 'product' 
+                      ? daily.type 
+                      : ""}
+                </div>
+                <img class="pic" src="${daily.picture_url}"></img>
+            </div>
+            <div class=".info"> 
+                  ${daily.type === 'recipe' && typeof daily.recipe.description !== 'undefined' && daily.recipe.description !== null
+                  ?  (document.createElement('div').innerHTML = daily.recipe.description)
                   : ""}
-                </tspan>
-                <tspan class="section view" x="0" dy="1.3em">
-                  ${typeof daily.section !== 'undefined' && daily.section.name !== null
-                  ? daily.section.name
-                  : ""}
-                </tspan>
-                <tspan class="recipe_name view" x="0" dy="1.3em">
-                  ${typeof daily.note !== 'undefined' && daily.note !== null
-                  ? daily.note
-                  : ""}
-                </tspan>
-              </text>
-            </svg>
-          </div>
-        </div>          
-      `)}
+            </div>
+        </div>
+    </div>          
+    `)}
     </div>
     `;
       
@@ -218,16 +227,20 @@ class MealPlanCard extends LitElement {
             margin-bottom: 10px;
             background-repeat: no-repeat;
             background-size: auto 100%;
-            box-shadow: 3px 2px 25px rgba(0,0,0,.8);
+            box-shadow: var(--ha-card-box-shadow,none);
+            box-sizing: border-box;
+            border-radius: var(--ha-card-border-radius,6px);
+            border-width: var(--ha-card-border-width,1px);
+            border-style: solid;
+            border-color: var(--ha-card-border-color,var(--divider-color,#e0e0e0));        
             position: relative;
+            padding: 0px 0.67em 0.67em 0.67em;
+            background-color: var(--secondary-background-color,rgb(119 119 119 / 25%))
           }
 
           .day {
             width: 100%;
-            background: linear-gradient(to right, #000 48%,
-                  transparent 80%,#000 100%);
             margin: auto;
-            box-shadow: inset 0 0 0 3px #000;
             overflow: hidden;
           }
 
@@ -248,10 +261,19 @@ class MealPlanCard extends LitElement {
           }
 
           .daytitle {
-            font-weight: 600;
-            font-size: 18px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
-            fill: #fff;              
+            color: var(--ha-card-header-color,--primary-text-color);
+            font-family: var(--ha-card-header-font-family,inherit);
+            font-size: var(--ha-card-header-font-size,24px);
+            letter-spacing: -0.012em;
+            line-height: 48px;
+            padding: 12px 16px 16px;
+            display: block;
+            margin-block: 0px;
+            font-weight: 400;
+            #font-weight: 600;
+            #font-size: 18px;
+            #text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+            #fill: #fff;              
           }
 
           .recipe_name {
@@ -266,7 +288,15 @@ class MealPlanCard extends LitElement {
             text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
             fill: #fff;              
           }          
-    
+          .inline {
+              display: inline-block;
+          }
+          
+          .pic {
+                width: 10em;
+                float: right;
+                display: inline-block;
+            }
           .dayname {
             text-transform: uppercase;
           }
