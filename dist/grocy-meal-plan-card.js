@@ -110,10 +110,19 @@ class MealPlanCard extends LitElement {
                 <tspan class="dayname view daytitle" x="0" dy="1em">${this.getDay(daily.day, lang, tz)}</tspan>
                 <tspan class="recipe_name view" x="0" dy="1.3em">${this.getShortDay(daily.day, lang)}</tspan>
                 <tspan class="recipe_name view" x="0" dy="1.3em">
-                  ${ daily.recipe === null ? daily.note
-                    : typeof daily.recipe_name !== 'undefined' ? daily.recipe_name
-                    : typeof daily.recipe.name !== 'undefined' ? daily.recipe.name
-                    : ""}
+                ${daily.type === 'note' 
+                ? daily.note 
+                : ""}
+                ${daily.type === 'recipe' 
+                  ? typeof daily.recipe_name !== 'undefined' 
+                    ? daily.recipe_name 
+                    : typeof daily.recipe.name !== 'undefined' 
+                      ? daily.recipe.name 
+                    : ""
+                  : ""}
+                ${daily.type === 'product' 
+                  ? daily.type 
+                  : ""}
                 </tspan>
                 <tspan class="section view" x="0" dy="1.3em">
                   ${typeof daily.section !== 'undefined' && daily.section.name !== null
