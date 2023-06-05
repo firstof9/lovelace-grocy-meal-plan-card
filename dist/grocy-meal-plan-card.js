@@ -96,13 +96,11 @@ class MealPlanCard extends LitElement {
     const tz = this.hass.config.time_zone || "GMT";
 
     this.numberElements++;
-
+    
     // Build meal plan array with filtering
     var newplan = this.buildPlan(meals, lang, tz);
-
-    var text = html`
-    <div>
-    ${newplan.map((daily) => html`
+    var newDiv = document.createElement('div');
+    var innercontent = newplan.map((daily) => `
     <div class="meal">
         <div class="day">
             <div>
@@ -128,21 +126,20 @@ class MealPlanCard extends LitElement {
                       ? daily.type 
                       : ""}
                 </div>
-                <img class="pic" src="${daily.picture_url}"></img>
+                ${ daily.picture_url !== null ? `<img class="pic" src="${daily.picture_url}"></img>` : ""}
             </div>
-            <div class=".info"> 
+            ${!this._config.hideRecipe ?  
+            `<div class=".info"> 
                   ${daily.type === 'recipe' && typeof daily.recipe.description !== 'undefined' && daily.recipe.description !== null
-                  ?  (document.createElement('div').innerHTML = daily.recipe.description)
+                  ?  daily.recipe.description
                   : ""}
-            </div>
+            </div>`: "" }
         </div>
     </div>          
-    `)}
-    </div>
-    `;
-      
+    `);
+    innercontent.forEach(cont => { newDiv.innerHTML += cont;} );
     if (newplan.length > 0) {
-      return text;
+      return newDiv;
     }
     else {
       return html`
