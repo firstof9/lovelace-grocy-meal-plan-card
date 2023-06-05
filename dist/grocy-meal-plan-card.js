@@ -54,7 +54,10 @@ class MealPlanCard extends LitElement {
     }
 
     this.numberElements = 0;
-
+    this.recipelength = 300;
+    if(this._config.recipeLength != null){
+        this.recipelength = this._config.recipeLength;
+    }
     const stateObj = this.hass.states[this._config.entity];
 
     if (!stateObj) {
@@ -130,9 +133,9 @@ class MealPlanCard extends LitElement {
             </div>
             ${!this._config.hideRecipe ?  
             `<div class=".info"> 
-                  ${daily.type === 'recipe' && typeof daily.recipe.description !== 'undefined' && daily.recipe.description !== null
-                  ?  daily.recipe.description
-                  : ""}
+                ${daily.type === 'recipe' && typeof daily.recipe.description !== 'undefined' && daily.recipe.description !== null
+                ?  `${ this.recipelength > 0 ? daily.recipe.description.substring(0,this.recipelength) : daily.recipe.description}`
+                : ""}
             </div>`: "" }
         </div>
     </div>          
