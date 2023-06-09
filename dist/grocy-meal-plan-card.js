@@ -296,6 +296,7 @@ class MealPlanCard extends LitElement {
                 width: 10em;
                 float: right;
                 display: inline-block;
+                border-radius: var(--ha-card-border-radius,6px);
             }
           .dayname {
             text-transform: uppercase;
