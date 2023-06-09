@@ -1,5 +1,4 @@
 {
     "name": "Meal Plan Card - Lovelace style",
-    "homeassistant": "0.111.0",
     "render_readme": true,
 }
