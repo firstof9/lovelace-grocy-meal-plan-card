@@ -54,7 +54,10 @@ class MealPlanCard extends LitElement {
     }
 
     this.numberElements = 0;
-
+    this.recipelength = 300;
+    if(this._config.recipeLength != null){
+        this.recipelength = this._config.recipeLength;
+    }
     const stateObj = this.hass.states[this._config.entity];
 
     if (!stateObj) {
@@ -96,13 +99,11 @@ class MealPlanCard extends LitElement {
     const tz = this.hass.config.time_zone || "GMT";
 
     this.numberElements++;
-
+    
     // Build meal plan array with filtering
     var newplan = this.buildPlan(meals, lang, tz);
-
-    var text = html`
-    <div>
-    ${newplan.map((daily) => html`
+    var newDiv = document.createElement('div');
+    var innercontent = newplan.map((daily) => `
     <div class="meal">
         <div class="day">
             <div>
@@ -128,21 +129,20 @@ class MealPlanCard extends LitElement {
                       ? daily.type 
                       : ""}
                 </div>
-                <img class="pic" src="${daily.picture_url}"></img>
+                ${ daily.picture_url !== null ? `<img class="pic" src="${daily.picture_url}"></img>` : ""}
             </div>
-            <div class=".info"> 
-                  ${daily.type === 'recipe' && typeof daily.recipe.description !== 'undefined' && daily.recipe.description !== null
-                  ?  (document.createElement('div').innerHTML = daily.recipe.description)
-                  : ""}
-            </div>
+            ${!this._config.hideRecipe ?  
+            `<div class=".info"> 
+                ${daily.type === 'recipe' && typeof daily.recipe.description !== 'undefined' && daily.recipe.description !== null
+                ?  `${ this.recipelength > 0 ? daily.recipe.description.substring(0,this.recipelength) : daily.recipe.description}`
+                : ""}
+            </div>`: "" }
         </div>
     </div>          
-    `)}
-    </div>
-    `;
-      
+    `);
+    innercontent.forEach(cont => { newDiv.innerHTML += cont;} );
     if (newplan.length > 0) {
-      return text;
+      return newDiv;
     }
     else {
       return html`
@@ -296,6 +296,7 @@ class MealPlanCard extends LitElement {
                 width: 10em;
                 float: right;
                 display: inline-block;
+                border-radius: var(--ha-card-border-radius,6px);
             }
           .dayname {
             text-transform: uppercase;

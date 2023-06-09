@@ -3,7 +3,7 @@
  
  Style barrowed from [Upcoming Media Card](https://github.com/custom-cards/upcoming-media-card)
 
-<img src="https://github.com/firstof9/lovelace-grocy-meal-plan-card/raw/main/image.png" alt="Grocy Meal Plan Card">
+<img src="./image.png" alt="Grocy Meal Plan Card">
 
 ### Card Config
 This goes under `cards:` in your lovelace:
@@ -20,6 +20,8 @@ This goes under `cards:` in your lovelace:
 | daily | `boolean` | `false` | Show the current day's plan(s) |
 | section | `string` | `none` | Filter plans by Grocy `section` |
 | custom_translation | string-list | **Optional** |  List of translations of string values used in the card (see below). |
+| hideRecipe | `boolean` | `false` | Hides recipe description from card |
+| recipeLenght | `integer` | `300` | Limits the length of the recipes. 0 is unlimited lenght. |
 
 ## Advanced options
 It is possible to translate the following English strings in the card to whatever you like.
