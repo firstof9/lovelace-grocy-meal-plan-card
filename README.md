@@ -22,7 +22,7 @@ This goes under `cards:` in your lovelace:
 | custom_translation | `string-list` | **Optional** |  List of translations of string values used in the card (see below). |
 | hideRecipe | `boolean` | `false` | Hides recipe description from card |
 | recipeLenght | `integer` | `300` | Limits the length of the recipes. 0 is unlimited lenght. |
-| imgWdith | `string` | `none` | Adjust width of image using CSS/HTML sizes. |
+| imgWidth | `string` | `none` | Adjust width of image using CSS/HTML sizes. |
 
 ## Advanced options
 It is possible to translate the following English strings in the card to whatever you like.
