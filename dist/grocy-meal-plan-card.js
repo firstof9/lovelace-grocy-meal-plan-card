@@ -129,7 +129,7 @@ class MealPlanCard extends LitElement {
                       ? daily.type 
                       : ""}
                 </div>
-                ${ daily.picture_url !== null ? `<img class="pic" src="${daily.picture_url}"></img>` : ""}
+                ${ daily.picture_url !== null ? `<img class="pic" style="${this._config.imgWidth !== null ? `width: ${this._config.imgWidth};` : ""}" src="${daily.picture_url}"></img>` : ""}
             </div>
             ${!this._config.hideRecipe ?  
             `<div class=".info"> 
@@ -297,7 +297,7 @@ class MealPlanCard extends LitElement {
                 float: right;
                 display: inline-block;
                 border-radius: var(--ha-card-border-radius,6px);
-            }
+          }
           .dayname {
             text-transform: uppercase;
           }
