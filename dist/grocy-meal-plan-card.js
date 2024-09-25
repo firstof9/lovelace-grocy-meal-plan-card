@@ -163,32 +163,35 @@ class MealPlanCard extends LitElement {
     return 3;
   }
 
-  buildPlan(meals, lang, tz) {
+  buildPlan( meals, lang, tz ) {
     var today = new Date();
     var yyyy = today.getFullYear();
     var mm = today.getMonth() + 1;
     var dd = today.getDate();
-    dd <10 ? dd = '0' + dd : dd = dd
-    mm < 10 ? mm = '0' + mm : mm = mm
-    today = yyyy + '-' + mm + '-' + dd
+    dd < 10 ? dd = '0' + dd : dd = dd;
+    today = yyyy + '-' + mm + '-' + dd;
     var newplan = [];
-    if (this._config.daily)
-    {
+    if (this._config.daily) {
       meals.forEach(daily => {
         if (daily.day == today) {
           newplan.push(daily)
         }
       })
-    } 
-    else if (this._config.section) {
+    } else if (this._config.section) {
+      var sectionPlan = {};
       meals.forEach(daily => {
         if (daily.section.name.toLowerCase() == this._config.section.toLowerCase()) {
-          meals.slice(0,this._config.count ? this._config.count : 5).map(daily => newplan.push(daily))
-        }        
+          if (!sectionPlan[daily.section.name]) {
+            sectionPlan[daily.section.name] = [];
+          }
+          sectionPlan[daily.section.name].push(daily)
+        }
       })
-    }
-    else {
-      meals.slice(0,this._config.count ? this._config.count : 5).map(daily => newplan.push(daily))
+      Object.keys(sectionPlan).forEach(section => {
+        newplan.push({ section: section, meals: sectionPlan[section] })
+      })
+    } else {
+      meals.slice(0, this._config.count ? this._config.count : 5).map(daily => newplan.push(daily))
     }
     return newplan
   }
