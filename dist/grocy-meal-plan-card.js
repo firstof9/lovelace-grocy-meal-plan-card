@@ -183,9 +183,10 @@ class MealPlanCard extends LitElement {
     else if (this._config.section) {
       meals.forEach(daily => {
         if (daily.section.name.toLowerCase() == this._config.section.toLowerCase()) {
-          meals.slice(0,this._config.count ? this._config.count : 5).map(daily => newplan.push(daily))
-        }        
+          newplan.push(daily)
+        }
       })
+      newplan.splice(this._config.count ? this._config.count : 5)
     }
     else {
       meals.slice(0,this._config.count ? this._config.count : 5).map(daily => newplan.push(daily))
