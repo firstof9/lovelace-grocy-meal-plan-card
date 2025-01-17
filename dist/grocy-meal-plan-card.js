@@ -175,7 +175,7 @@ class MealPlanCard extends LitElement {
     if (this._config.daily)
     {
       meals.forEach(daily => {
-        if (daily.day == today) {
+        if (daily.day.split('T')[0] == today) {
           newplan.push(daily)
         }
       })
